@@ -1,0 +1,18 @@
+.contact-form {
+    /* Form should not be to the very left hand side */
+    width: 90%;
+    margin: 0 auto;
+    /* Colour the form to showcase width */
+    background-color: rgb(191, 245, 203);
+}
+
+.contact-form label {
+    /* Labels top input boxes */
+    display: block;
+    margin-left: 3%;
+}
+
+.contact-form  .form-control {
+    width: 90%;
+    margin: 1% 0 4% 3%; /* top right bottom left */
+}
