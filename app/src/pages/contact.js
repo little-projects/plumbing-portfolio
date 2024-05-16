@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import '../assets/styles/contact.css'
 
@@ -8,7 +8,8 @@ class Contact extends React.Component {
         this.state = {
             name: '',
             email: '',
-            message: ''
+            message: '',
+            customerStatus: 'New Customer'
         }
     }
 
@@ -21,35 +22,48 @@ class Contact extends React.Component {
 
     render() {
         return (
-            <div className="contact-form">
+            <div className='contact-form'>
                 
                 <button>
                     <a href={this.buildEmail()}>Email</a>
                 </button>
                 <p className='instructions'>
-                    If you want to get a quote please fill out the below form
-                    Dimensions: wxlxh
-                    Tile: Full/Half-tiled, number of walls, aprox size of tiles
-                    Fir or Supply and fit * we generally work with supply and fit (see brands page)
-                    Location
-                    Phone number 
-                    Do you have a timesale in mind - ASAP, Target month, Flexible, 
+                    <strong>Please fill out the following form, describing the work you would like to be carried out.</strong>
+                    <br/>
+                    
+                    
                 </p>
-                <form id="contact-form" onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="form-group">
-                        <label id="customer-name">Name</label>
-                        <input type="text" className="form-control" value={this.state.name} onChange={this.onNameChange.bind(this)} />
+                <form id='contact-form' onSubmit={this.handleSubmit.bind(this)}>
+                    <div> {/* Name */}
+                        <label id='customer-name'>Name</label>
+                        <input type='text' className='input-area' value={this.state.name} onChange={this.onNameChange.bind(this)} />
                     </div>
-                    <div className="form-group">
-                        <label id="exampleInputEmail">Email address</label>
-                        <input type="email" className="form-control" aria-describedby="emailHelp" value={this.state.email} onChange={this.onEmailChange.bind(this)} />
+                {/* Phone number  */}
+                    <div className='input-area'> {/* New / Returning Customer */}
+                        <label>
+                            <input type='radio' value='New Customer' checked={this.state.customerStatus === 'New Customer'} onChange={this.onOptionChange.bind(this)}/>
+                        New Customer</label>
+
+                        <label>
+                            <input type='radio' value='Returning Customer' checked={this.state.customerStatus === 'Returning Customer'} onChange={this.onOptionChange.bind(this)}/>
+                        Returning Customer</label>
                     </div>
-                    <div className="form-group">
-                        <label id="message">Message</label>
-                        
-                        <textarea className="form-control" rows="10" value={this.state.message} onChange={this.onMessageChange.bind(this)} />
+                    <div> {/* Area / Postcode */}
+                        <label id>Location</label>
+                        <input type='text' className='input-area' placeholder='Area or Postcode e.g. Chapel Allerton' value={this.state.name} onChange={this.onNameChange.bind(this)} />
                     </div>
-                    <button type="submit" className="btn btn-primary">
+                    <div> {/* Details / Message */}
+                    <p>
+                        Feel free to include any additional information that will help us understand your needs better, which might include:
+                    <li>How soon you would like the work to be carried out </li>
+                    <li>The dimensions of the room (length, width, and height) </li>
+                    <li>The number of walls to be tiled, approx size of tiles and if the walls should be full or half-tiled </li>
+                    {/* Fir or Supply and fit * we generally work with supply and fit (see brands page) */}
+                    </p>
+                        <label id='message'>Message</label>
+                        <textarea className='input-area' height='40' value={this.state.message} onChange={this.onMessageChange.bind(this)} />
+                    </div>
+                    <button type='submit' className='btn btn-primary'>
                         <a href={this.buildEmail()}>Send as an email</a> 
                     </button>
                 </form>
@@ -57,26 +71,22 @@ class Contact extends React.Component {
         );
     }
 
-    onNameChange(event) {
-        this.setState({ name: event.target.value })
-    }
+    // Capture info provided
+    onNameChange(e) { this.setState({ name: e.target.value }) }
 
-    onEmailChange(event) {
-        this.setState({ email: event.target.value })
-    }
+    onOptionChange(e) { this.setState({ customerStatus: e.target.value }) }
 
-    onMessageChange(event) {
-        this.setState({ message: event.target.value })
-    }
+    onMessageChange(e) { this.setState({ message: e.target.value }) }
 
     buildEmail() {
         const targetEmail = process.env.REACT_APP_CONTACT_EMAIL;
-        const subject = "Test"
-        return `mailto:${targetEmail}?subject=${subject}&body=${this.state.message}\nSent from ${this.state.name} using Plumbing Enquiry Form`
+        const subject = this.state.customerStatus;
+        const newline = '%0D%0A';
+        return `mailto:${targetEmail}?subject=${subject}&body=${this.state.message}${newline}Sent from ${this.state.name} using Plumbing Enquiry Form`
     }
 
     resetForm() {
-        this.setState({ name: '', email: '', message: '' })
+        this.setState({ name: '', email: '', message: '', customerStatus: true })
     }
 }
 

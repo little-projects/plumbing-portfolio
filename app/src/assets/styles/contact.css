@@ -12,7 +12,8 @@
     margin-left: 3%;
 }
 
-.contact-form  .form-control {
+.contact-form .input-area {
     width: 90%;
     margin: 1% 0 4% 3%; /* top right bottom left */
+    font-family: inherit;
 }
