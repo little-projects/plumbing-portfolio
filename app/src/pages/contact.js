@@ -7,9 +7,9 @@ class Contact extends React.Component {
         super(props);
         this.state = {
             name: '',
-            email: '',
+            location: '',
+            customerStatus: 'New Customer',
             message: '',
-            customerStatus: 'New Customer'
         }
     }
 
@@ -28,10 +28,7 @@ class Contact extends React.Component {
                     <a href={this.buildEmail()}>Email</a>
                 </button>
                 <p className='instructions'>
-                    <strong>Please fill out the following form, describing the work you would like to be carried out.</strong>
-                    <br/>
-                    
-                    
+                    <strong>Please fill out the following form, describing the work you would like to be carried out.</strong><br/>
                 </p>
                 <form id='contact-form' onSubmit={this.handleSubmit.bind(this)}>
                     <div> {/* Name */}
@@ -49,8 +46,8 @@ class Contact extends React.Component {
                         Returning Customer</label>
                     </div>
                     <div> {/* Area / Postcode */}
-                        <label id>Location</label>
-                        <input type='text' className='input-area' placeholder='Area or Postcode e.g. Chapel Allerton' value={this.state.name} onChange={this.onNameChange.bind(this)} />
+                        <label>Location</label>
+                        <input type='text' className='input-area' placeholder='Area or Postcode e.g. Chapel Allerton' value={this.state.location} onChange={this.onLocationChange.bind(this)} />
                     </div>
                     <div> {/* Details / Message */}
                     <p>
@@ -74,19 +71,26 @@ class Contact extends React.Component {
     // Capture info provided
     onNameChange(e) { this.setState({ name: e.target.value }) }
 
+    onLocationChange(e) { this.setState({ location: e.target.value }) }
+
     onOptionChange(e) { this.setState({ customerStatus: e.target.value }) }
 
     onMessageChange(e) { this.setState({ message: e.target.value }) }
 
     buildEmail() {
         const targetEmail = process.env.REACT_APP_CONTACT_EMAIL;
-        const subject = this.state.customerStatus;
+        const subject = `${this.state.customerStatus} in ${this.state.location}`;
         const newline = '%0D%0A';
         return `mailto:${targetEmail}?subject=${subject}&body=${this.state.message}${newline}Sent from ${this.state.name} using Plumbing Enquiry Form`
     }
 
     resetForm() {
-        this.setState({ name: '', email: '', message: '', customerStatus: true })
+        this.setState({
+            name: '',
+            location: '',
+            message: '',
+            customerStatus: 'New Customer',
+        })
     }
 }
 
